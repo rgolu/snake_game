@@ -1,8 +1,3 @@
-/*
-Create by Learn Web Developement
-Youtube channel : https://www.youtube.com/channel/UC8n8ftV94ZU_DJLOLtrpORA
-*/
-
 const canvas = document.getElementById("snake");
 const ctx = canvas.getContext("2d");
 const ground = new Image();
@@ -10,6 +5,18 @@ ground.src = "img/ground.png";
 const box = 32;
 const foodImg = new Image();
 foodImg.src = "img/food.png";
+let dead = new Audio();
+let down = new Audio();
+let eat = new Audio();
+let left = new Audio();
+let right = new Audio();
+let up = new Audio();
+dead.src="audio/dead.mp3";
+down.src="audio/down.mp3";
+eat.src="audio/eat.mp3";
+left.src="audio/left.mp3";
+right.src="audio/right.mp3";
+up.src="audio/up.mp3";
 
 ////
 ///
@@ -35,15 +42,19 @@ function direction(event)
    if(event.keyCode== 65 && d!="RIGHT")
    {
       d="LEFT";
+      left.play();
    }else  if(event.keyCode== 87 && d!="DOWN")
    {
     d="UP";
+     up.play();
    }else  if(event.keyCode== 68 && d!="LEFT")
    {
       d="RIGHT";
+       right.play();
    }else  if(event.keyCode== 83 && d!="UP")
    {
       d="DOWN";
+       down.play();
    }
 }
 
@@ -75,6 +86,7 @@ if(snake[0].x==food.x && snake[0].y==food.y)
 {
 	
 	score++;
+	 eat.play();
 	food= {
 		x : Math.floor(Math.random()*17+1)*box,
 	y : Math.floor(Math.random()*15+3)*box
@@ -94,6 +106,7 @@ if(snakeX < box || snakeX > 17*box
 	|| snakeY > 17*box || collision(newhead,snake))
 {
 	clearInterval(game);
+	 dead.play();
 }
 
 function collision(head,array) {
